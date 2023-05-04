@@ -15,10 +15,9 @@ namespace Alessio.Exerses.Alternative2
             string name2 = "maria";
             string surname2 = "maria";
             bank.ChangeCEO(name, surname);
-            bank.Notify();
-
+ 
             bank.ChangeCEO(name2, surname2);
-            bank.Notify();
+            
         }
     }
 }

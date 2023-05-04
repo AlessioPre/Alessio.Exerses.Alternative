@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,10 +9,23 @@ namespace Alessio.Exerses.Alternative2
 {
     internal class CentralBank:ISubject
     {
-        public string Ceo;
-        public string state;
+        private string _ceo = "senza Ceo";
         public CentralBank() { }
         List<IObserver> observers = new List<IObserver>();
+
+        public string Ceo
+        {
+            get { return _ceo; }
+            set
+            {
+                if (value != _ceo)
+                {
+                    _ceo = value;
+                    Notify();
+                }
+            }
+        }
+
         public void Add(IObserver observer)
         {
             observers.Add(observer);

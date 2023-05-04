@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alessio.Exerses.Alternative2
 {
-    internal class CommercialBank :CentralBank,IObserver
+    internal class CommercialBank :IObserver
     {
         private CentralBank bank;
  
