@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,10 @@ namespace Alessio.Exerses.Alternative
         #region Continente
         class Continente : Area_Geografica
         {
+            
             #region //Var Continente
             Paese _paese;
+        
             #endregion
             #region //Costruttore continente
             public Continente(string nomecontinente)
@@ -25,7 +28,8 @@ namespace Alessio.Exerses.Alternative
             }
             public void CreaPaese(string nomepaese)
             {
-                _paese = new Paese(nomepaese);
+                 _paese = new Paese(nomepaese);
+
             }
             public void ChangePaese(Continente Continente)
             {
@@ -43,10 +47,39 @@ namespace Alessio.Exerses.Alternative
             {
                 _paese.ProvinciaCreaComune(nomecomune);
             }
-            #endregion
 
-            #region Paese
-            class Paese : Area_Geografica
+            internal void PaeseCambiaRegione(string v1, string v2, string v3)
+        {
+            if (_paese.Nome == v2 )
+            {
+                Paese paese = new Paese(v3);
+                _paese.CreaRegione(v1);
+                _paese.ChangeRegione(paese);
+                paese.GetRegioneName();
+                Console.WriteLine("Il Paese {0} , non ha più la regione {1} , Ora appartiene a {2}",_paese.Nome,paese.GetRegioneName(),paese.Nome);
+            } 
+        }
+            internal void RegioneCambiaProvincia(string nomeProvincia, string nuovaregione, string vecchiaregione, string stato)
+        {
+
+            if (_paese.Nome== stato)
+            {
+                _paese.RegioneCreaProvincia(nomeProvincia, nuovaregione, vecchiaregione);
+
+            }
+        }
+            internal void ProvinciaCambiaComune(string nomecomune, string vecchiaprovincia, string nuovaprovincia, string nomeregione, string nomepaese)
+        {
+            if (_paese.Nome == nomepaese)
+            {
+                _paese.ProvinciaCambiaComune( nomecomune,vecchiaprovincia,nuovaprovincia,nomeregione);
+
+            }
+        }
+        #endregion
+
+        #region Paese
+        class Paese : Area_Geografica
             {
                 #region // Var Paese
                 Regione _regione;
@@ -85,9 +118,35 @@ namespace Alessio.Exerses.Alternative
                 {
                     _regione.ProvinciaCreaComune(nomecomune);
                 }
-                #endregion
-                #region Regione
-                class Regione : Area_Geografica
+
+            internal string GetRegioneName()
+            {
+                return _regione.Nome;
+            }
+
+            internal void RegioneCreaProvincia(string nomeProvincia, string nuovaregione, string vecchiaregione)
+            {
+                if (_regione.Nome==vecchiaregione)
+                {
+                    Regione regione = new Regione(nuovaregione);
+                    _regione.CreateProvincia(nomeProvincia);
+                    _regione.ChangeProvincia(regione);
+                    regione.GetProvinciaName();
+                    Console.WriteLine("La regione {0} , non ha più la provincia {1} , Ora appartiene a {2}", _regione.Nome,regione.GetProvinciaName(), regione.Nome);
+                }
+            }
+
+            internal void ProvinciaCambiaComune(string nomecomune, string vecchiaprovincia, string nuovaprovincia, string nomeregione)
+            {
+                if (_regione.Nome==nomeregione)
+                {
+                    _regione.ProvinciaCambiaComune(nomecomune,vecchiaprovincia,nuovaprovincia);
+                };
+            }
+            #endregion
+
+            #region Regione
+            class Regione : Area_Geografica
                 {
                     #region // Var Regione
 
@@ -122,15 +181,32 @@ namespace Alessio.Exerses.Alternative
                         _provincia.CreateComune(nomecomune);
                     }
 
-                    //public void ChangeStato(string nomeregione ,string nuovostato)
-                    //{
-                    //    this.Nome= nomeregione;
-                    //    _nomestato = nuovostato;
-                    //}
-                    #endregion
+                internal string GetProvinciaName()
+                {
+                    return this._provincia.Nome;
+                }
 
-                    #region Provincia
-                    class Provincia : Area_Geografica
+                internal void ProvinciaCambiaComune(string nomecomune, string vecchiaprovincia, string nuovaprovincia)
+                {
+                    if (_provincia.Nome == vecchiaprovincia)
+                    {
+                        Provincia provincia = new Provincia(nuovaprovincia);
+                        _provincia.CreateComune(nomecomune);
+                        _provincia.ChangeComune(provincia);
+                        provincia.GetComuneName();
+                        Console.WriteLine("La regione {0} , non ha più la provincia {1} , Ora appartiene a {2}", _provincia.Nome, provincia.GetComuneName(), provincia.Nome);
+                    }
+                }
+
+                //public void ChangeStato(string nomeregione ,string nuovostato)
+                //{
+                //    this.Nome= nomeregione;
+                //    _nomestato = nuovostato;
+                //}
+                #endregion
+
+                #region Provincia
+                class Provincia : Area_Geografica
                     {
                         #region // Var Provincia
                         Comune _comune;
@@ -158,15 +234,20 @@ namespace Alessio.Exerses.Alternative
                             this._comune = null;
                         }
 
-                        //public void ChangeRegione(string nomeprovincia , string nuovaregione)
-                        //{
-                        //    this.Nome       = nomeprovincia;
-                        //    _nuovaregione   = nuovaregione;
-                        //}
-                        #endregion
+                    internal string GetComuneName()
+                    {
+                        return this._comune.Nome;
+                    }
 
-                        #region Comune
-                        class Comune : Area_Geografica
+                    //public void ChangeRegione(string nomeprovincia , string nuovaregione)
+                    //{
+                    //    this.Nome       = nomeprovincia;
+                    //    _nuovaregione   = nuovaregione;
+                    //}
+                    #endregion
+
+                    #region Comune
+                    class Comune : Area_Geografica
                         {
                             #region // Var Comune
                             //string _nomeProvincia;
@@ -174,7 +255,7 @@ namespace Alessio.Exerses.Alternative
                             #region //Costruttore Comune
                             public Comune(string nomecomune)
                             {
-                                Nome = nomecomune;
+                                this.Nome = nomecomune;
                                 //_nomeProvincia = nomeprovincia;
                             }
                             #endregion

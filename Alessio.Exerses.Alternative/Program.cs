@@ -9,9 +9,13 @@ namespace Alessio.Exerses.Alternative
             Continente continente;
             continente = new Continente("europa");
             continente.CreaPaese("italia");
-            continente.PaeseCreaRegione("lazio");
+            continente.PaeseCreaRegione("Umbria");
             continente.RegioneCreaProvincia("viterbo");
             continente.ProvinciaCreaComune("Montefiascone");
+            //////Cambio
+            continente.PaeseCambiaRegione("Lombardia", "italia", "Austria");
+            continente.RegioneCambiaProvincia("Terni","Lazio","Umbria","italia");
+            continente.ProvinciaCambiaComune("Montefiascone","viterbo","Chieti","Umbria","italia");
         }
     }
 }
